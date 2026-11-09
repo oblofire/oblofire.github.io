@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nur Uygulaması</title>
+<meta name="description" content="Nur: Kur'an-ı Kerim, namaz vakitleri, dualar, zikirmatik ve hadis hikâyeleri tek uygulamada.">
+<meta property="og:title" content="Nur: Kur'an, Dualar ve Hikâyeler">
+<meta property="og:description" content="Kur'an, namaz vakitleri, dualar ve hadis hikâyeleri. Google Play'de ücretsiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: tek sütun, gece göğünde parlayan bir kandil gibi; amblem → başlık → indir butonu → özellikler */
+:root {
+  --sky: #10303a;
+  --sky-deep: #081c23;
+  --gold: #f2c46d;
+  --gold-deep: #d9a441;
+  --ink-on-gold: #1d1606;
+  --text: #f5efe1;
+  --muted: #a8c3bf;
+  --line: rgba(242, 196, 109, 0.16);
+  --card: rgba(255, 255, 255, 0.045);
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --arabic: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--sky-deep); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--body);
+  color: var(--text);
+  background:
+    radial-gradient(120% 60% at 50% 18%, rgba(242,196,109,0.18), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23f2c46d' stroke-opacity='0.07' stroke-width='1'%3E%3Crect x='22' y='22' width='28' height='28'/%3E%3Crect x='22' y='22' width='28' height='28' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='6'/%3E%3Cpath d='M0 36h16M56 36h16M36 0v16M36 56v16'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg, var(--sky) 0%, var(--sky-deep) 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 460px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+/* Amblem: sekiz köşeli yıldız içinde "nur" */
+.emblem { position: relative; width: 196px; height: 196px; }
+.emblem::before {
+  content: "";
+  position: absolute; inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242,196,109,0.38) 0%, rgba(242,196,109,0.08) 45%, transparent 70%);
+  animation: glow 4.5s ease-in-out infinite;
+}
+.emblem svg { position: relative; width: 100%; height: 100%; display: block; }
+.emblem .ar {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--arabic);
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--ink-on-gold);
+  padding-bottom: 10px;
+}
+@keyframes glow { 0%,100% { opacity: .75; transform: scale(.96); } 50% { opacity: 1; transform: scale(1.04); } }
+
+.head { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+h1 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(56px, 16vw, 72px);
+  line-height: .95;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+}
+.tagline {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.sub { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 34ch; text-wrap: balance; }
+
+/* İndir butonu */
+.cta { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.play {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 20px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: var(--ink-on-gold);
+  text-decoration: none;
+  box-shadow: 0 6px 0 #8f6a22, 0 18px 40px rgba(242,196,109,0.25);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.play:hover { transform: translateY(-1px); }
+.play:active { transform: translateY(5px); box-shadow: 0 1px 0 #8f6a22, 0 8px 20px rgba(242,196,109,0.2); }
+.play:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
+.play svg { width: 30px; height: 30px; flex: none; }
+.play .txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; text-align: left; }
+.play small { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+.play strong { font-size: 22px; font-weight: 800; }
+.note { margin: 0; font-size: 13px; color: var(--muted); }
+
+/* Özellikler */
+.features {
+  width: 100%;
+  list-style: none; margin: 0; padding: 6px 0;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--card);
+  backdrop-filter: blur(4px);
+  text-align: left;
+}
+.features li { display: flex; gap: 14px; align-items: center; padding: 14px 18px; }
+.features li + li { border-top: 1px solid var(--line); }
+.ic {
+  flex: none; width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: rgba(242,196,109,0.12);
+  color: var(--gold);
+}
+.ic svg { width: 22px; height: 22px; }
+.features div { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.features b { font-size: 16px; font-weight: 800; }
+.features span { font-size: 14px; color: var(--muted); line-height: 1.4; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.badges span {
+  font-size: 13px; font-weight: 700;
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+footer { font-size: 13px; color: var(--muted); opacity: .8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .emblem::before { animation: none; }
+  .play { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <div class="emblem" aria-hidden="true">
+    <svg viewBox="0 0 200 200">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f7d48a"/>
+          <stop offset="1" stop-color="#d9a441"/>
+        </linearGradient>
+      </defs>
+      <g transform="translate(100 100)">
+        <rect x="-62" y="-62" width="124" height="124" rx="10" fill="url(#g)"/>
+        <rect x="-62" y="-62" width="124" height="124" rx="10" fill="url(#g)" transform="rotate(45)"/>
+        <circle r="56" fill="none" stroke="#1d1606" stroke-opacity=".18" stroke-width="2"/>
+        <circle r="78" fill="none" stroke="#f2c46d" stroke-opacity=".35" stroke-width="1"/>
+      </g>
+    </svg>
+    <div class="ar" lang="ar">نور</div>
+  </div>
+
+  <div class="head">
+    <h1>Nur</h1>
+    <p class="tagline">Kur'an, dualar ve hadis hikâyeleri tek uygulamada</p>
+    <p class="sub">Namaz vakitlerinden zikirmatiğe, ihtiyacın olan her şey sakin ve sade bir tasarımla yanında.</p>
+  </div>
+
+  <div class="cta">
+    <a class="play" id="play" href="https://play.google.com/store/apps/details?id=com.skstudio.nur" target="_top" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.2 2.4c-.3.3-.4.7-.4 1.3v16.6c0 .6.1 1 .4 1.3l.1.1 9.3-9.3v-.2L4.3 2.3l-.1.1zm12.5 12.4-3.1-3.1v-.2l3.1-3.1.1.1 3.7 2.1c1 .6 1 1.6 0 2.2l-3.7 2.1-.1-.1zm-.1.1L13.4 11.7 4.2 20.9c.3.4.9.4 1.5.1l10.9-6.1M16.6 8.5 5.7 2.3c-.6-.4-1.2-.3-1.5.1l9.2 9.2 3.2-3.1z"/></svg>
+      <span class="txt"><small>Ücretsiz indir</small><strong>Google Play</strong></span>
+    </a>
+    <p class="note">Android için. Türkçe, İngilizce, Almanca ve Arapça.</p>
+  </div>
+
+  <ul class="features">
+    <li>
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5c-3.5-.5-6.5 0-8.5 1.5z"/><path d="M12 6.5v13"/></svg></span>
+      <div><b>Kur'an-ı Kerim</b><span>114 sure, Türkçe meal, okunuş ve ayet ayet tilavet</span></div>
+    </li>
+    <li>
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span>
+      <div><b>Namaz Vakitleri</b><span>Diyanet hesabıyla vakitler, sıradaki ezana geri sayım</span></div>
+    </li>
+    <li>
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="1.6"/><circle cx="17.5" cy="7.5" r="1.6"/><circle cx="19" cy="13" r="1.6"/><circle cx="6.5" cy="7.5" r="1.6"/><circle cx="5" cy="13" r="1.6"/><path d="M12 15v5M10 22h4"/><circle cx="12" cy="13" r="2"/></svg></span>
+      <div><b>Dua ve Zikirmatik</b><span>Kategorilere ayrılmış dualar, Esmâ-ül Hüsnâ ve tesbihat</span></div>
+    </li>
+    <li>
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9.5 4.5 2.5-4.5 2.5z"/></svg></span>
+      <div><b>Hadis Hikâyeleri</b><span>Çocuklar için kısa, elle çizilmiş animasyonlu hikâyeler</span></div>
+    </li>
+  </ul>
+
+  <div class="badges">
+    <span>Veri toplamaz</span>
+    <span>Vakitler internetsiz</span>
+    <span>3+ yaş</span>
+  </div>
+
+  <footer>© 2026 Nur</footer>
+</main>
+<script>
+/* Android'de (Instagram'ın içi dahil) Play Store uygulamasını doğrudan aç; açılmazsa web sayfasına düş */
+(function () {
+  if (!/android/i.test(navigator.userAgent)) return;
+  var web = "https://play.google.com/store/apps/details?id=com.skstudio.nur";
+  document.getElementById("play").href = "intent://details?id=com.skstudio.nur#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=" + encodeURIComponent(web) + ";end";
+})();
+</script>
+</body>
+</html>
